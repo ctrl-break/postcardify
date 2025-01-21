@@ -1,0 +1,2 @@
+export const DEFAULT_WORDS_PER_PAGE = 100;
+export const DEFAULT_IMAGES_PER_PAGE = 30;
