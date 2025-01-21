@@ -1,0 +1,239 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int                  @id @default(autoincrement())
+  name               String?
+  email              String               @unique
+  password           String
+  createdAt          DateTime             @default(now()) @map("created_at")
+  updatedAt          DateTime             @updatedAt @map("updated_at")
+  isBlocked          Boolean              @default(false) @map("is_blocked")
+  provider           Provider?
+  role               Role                 @default(USER)
+  token              Token[]
+  vocabulary         Vocabulary[]
+  category           Category[]
+  WordUsage          WordUsage[]
+  UserSetting        UserSetting[]
+  VocabularyProgress VocabularyProgress[]
+
+  @@map("users")
+}
+
+model Token {
+  token     String   @unique
+  exp       DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int      @map("user_id")
+  userAgent String   @map("user_agent")
+
+  @@map("tokens")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Provider {
+  GOOGLE
+}
+
+/////////////////////////////////// Vocabulary ////////////////////////////////////////
+
+model Word {
+  id                Int                   @id @default(autoincrement())
+  word              String
+  context           String?
+  translation       String
+  translateVariants Json?                 @map("translate_variants")
+  meaning           String?
+  transcription     String?
+  defaultImage      Image?                @relation(fields: [defaultImageId], references: [id])
+  defaultImageId    Int?                  @map("default_image_id")
+  categories        CategoryAssociation[]
+  pos               Part_of_Speech?
+  Vocabulary        Vocabulary[]
+  isVisible         Boolean               @default(true) @map("is_visible")
+  WordUsage         WordUsage[]
+
+  @@map("words")
+}
+
+enum Part_of_Speech {
+  noun
+  verb
+  adjective
+  adverb
+  pronoun
+  preposition
+  conjunction
+  interjection
+  determiner
+  auxiliary
+  modal
+  number
+  marker
+  article
+  infinitive
+}
+
+model Vocabulary {
+  id                 Int                   @id @default(autoincrement())
+  word               Word?                 @relation(fields: [wordId], references: [id])
+  wordId             Int?                  @map("word_id")
+  image              Image?                @relation(fields: [imageId], references: [id])
+  imageId            Int?                  @map("image_id")
+  userWord           String?               @map("user_word")
+  translation        String?
+  meaning            String?
+  transcription      String?
+  userId             Int                   @map("user_id")
+  user               User                  @relation(fields: [userId], references: [id])
+  createdAt          DateTime              @default(now()) @map("created_at")
+  updatedAt          DateTime              @updatedAt @map("updated_at")
+  categories         CategoryAssociation[]
+  VocabularyProgress VocabularyProgress[]
+  WordUsage          WordUsage[]
+
+  @@map("vocabulary")
+}
+
+model Category {
+  id          Int                   @id @default(autoincrement())
+  name        String
+  description String?
+  icon        String?
+  createdAt   DateTime              @default(now()) @map("created_at")
+  updatedAt   DateTime              @default(now()) @updatedAt @map("updated_at")
+  userId      Int?                  @map("user_id")
+  user        User?                 @relation(fields: [userId], references: [id])
+  words       CategoryAssociation[]
+
+  @@map("categories")
+}
+
+model CategoryAssociation {
+  id           Int         @id @default(autoincrement())
+  categoryId   Int         @map("category_id")
+  category     Category    @relation(fields: [categoryId], references: [id])
+  wordId       Int?        @map("word_id")
+  dictionary   Word?       @relation(fields: [wordId], references: [id])
+  vocabularyId Int?        @map("vocabulary_id")
+  vocabulary   Vocabulary? @relation(fields: [vocabularyId], references: [id])
+
+  @@map("category_association")
+}
+
+model WordUsage {
+  id            Int          @id @default(autoincrement())
+  sentence      String
+  translation   String?
+  isVerified    Boolean      @default(false) @map("is_verified")
+  wordId        Int?         @map("word_id")
+  word          Word?        @relation(fields: [wordId], references: [id])
+  vocabularyId  Int?         @map("vocabulary_id")
+  vocabulary    Vocabulary?  @relation(fields: [vocabularyId], references: [id])
+  userId        Int?         @map("user_id")
+  user          User?        @relation(fields: [userId], references: [id])
+  grammarRuleId Int?         @map("grammar_rule_id")
+  grammarRule   GrammarRule? @relation(fields: [grammarRuleId], references: [id])
+
+  @@map("word_usages")
+}
+
+/////////////////////////////////// Progress ////////////////////////////////////////
+model VocabularyProgress {
+  id           Int        @id @default(autoincrement())
+  vocabularyId Int        @map("vocabulary_id")
+  vocabulary   Vocabulary @relation(fields: [vocabularyId], references: [id])
+  userId       Int        @map("user_id")
+  user         User       @relation(fields: [userId], references: [id])
+  step         Int        @default(0)
+  nextStepDate DateTime   @map("next_step_date")
+  isComplete   Boolean    @default(false) @map("is_complete")
+
+  @@map("vocabulary_progresses")
+}
+
+/////////////////////////////////// Images ////////////////////////////////////////
+model Image {
+  id          Int            @id @default(autoincrement())
+  url         String
+  urls        Json?
+  description String?
+  externalId  String?        @map("external_id")
+  authorName  String?
+  authorLink  String?
+  blurHash    String?        @map("blur_hash")
+  provider    ImageProvider? @default(unsplash)
+  Word        Word[]
+  Vocabulary  Vocabulary[]
+
+  @@map("images")
+}
+
+enum ImageProvider {
+  unsplash
+  pixabay
+  local
+}
+
+/////////////////////////////////// Grammar ////////////////////////////////////////
+
+model GrammarRule {
+  id          Int         @id @default(autoincrement())
+  code        String      @unique
+  description String?
+  explanation String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  WordUsage   WordUsage[]
+
+  @@map("grammar_rules")
+}
+
+///////////////////////////////// Settings ///////////////////////////////////////////
+
+model Setting {
+  code             String        @id @unique
+  name             String
+  label            String?
+  description      String?
+  UserSetting      UserSetting[]
+  valueType        ValueType     @map("value_type")
+  defaultValueBool Boolean?      @map("default_value_bool")
+  defaultValueInt  Int?          @map("default_value_int")
+  defaultValueJson Json?         @map("default_value_json")
+  isActive         Boolean       @default(true)
+
+  @@unique([code, valueType])
+  @@map("settings")
+}
+
+enum ValueType {
+  Number
+  Boolean
+  Json
+}
+
+model UserSetting {
+  id               Int       @id @default(autoincrement())
+  userId           Int       @map("user_id")
+  user             User      @relation(fields: [userId], references: [id])
+  settingCode      String    @map("setting_code")
+  settingValueType ValueType @map("setting_value_type")
+  setting          Setting   @relation(fields: [settingCode, settingValueType], references: [code, valueType])
+  valueBool        Boolean?  @map("value_bool")
+  valueInt         Int?      @map("value_int")
+  valueJson        Json?     @map("value_json")
+
+  @@map("user_settings")
+}
