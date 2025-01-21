@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+    db:
+        container_name: db
+        image: postgres:15.5-alpine
+        restart: always
+        volumes:
+            - ./db:/var/lib/pgsql/data
+            - ./db/createdb.sql:/docker-entrypoint-initdb.d/appdb.sql
+        environment:
+            POSTGRES_DB: ${DATABASE_NAME}
+            POSTGRES_USER: ${DATABASE_USER}
+            POSTGRES_PASSWORD: ${DATABASE_PASS}
+        ports:
+            - 8100:5432
+
+    api:
+        container_name: api
+        build:
+            dockerfile: ./apps/api/Dockerfile
+        ports:
+            - '3000:3000'
+        env_file:
+            - .env-prod
+        depends_on:
+            - db
