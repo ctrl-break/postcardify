@@ -1,7 +1,7 @@
 {
   "name": "postcardify",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "scripts": {},
   "dependencies": {
     "@nestjs/common": "^10.0.2",
@@ -59,6 +59,6 @@
     "webpack-cli": "^5.1.4"
   },
   "engines": {
-		"node": ">=20.10.0 && <21"
-	}
+    "node": ">=20.10.0"
+  }
 }
