@@ -1,0 +1,74 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+
+<div class="actions">
+    <div class="left">
+        <button mat-fab color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+        <button mat-fab color="primary" (click)="toggleVocabulary()">
+            <mat-icon *ngIf="isVocabulary">remove</mat-icon>
+            <mat-icon *ngIf="!isVocabulary">bookmark_add</mat-icon>
+        </button>
+    </div>
+
+    <div class="right">
+        <button mat-fab color="primary" (click)="flipped = !flipped"><mat-icon>rotate_right</mat-icon></button>
+    </div>
+</div>
+
+<div class="postcard_wrapper" [ngClass]="{ flipped: flipped }">
+    <div class="picture" [ngClass]="{ colored: !wordImage }">
+        <img class="fitted" *ngIf="wordImage" [src]="wordImage.urls['regular']" [alt]="wordImage.description" />
+        <img class="contained" *ngIf="wordImage" [src]="wordImage.urls['regular']" [alt]="wordImage.description" />
+        <div class="word_container">
+            <div class="word">{{ word.word }}</div>
+        </div>
+    </div>
+
+    <div class="postcard" [ngClass]="{ mobile: mediaService.isMobile() }">
+        <div class="border">
+            <div class="word_wrapper dark-text">
+                <div class="left_column">
+                    <div class="examples">
+                        <div class="example" *ngFor="let sentence of word.usages">
+                            <div class="sentence">{{ sentence.sentence }}</div>
+                            <div class="sentence_translation">
+                                {{ sentence.translation }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right_column">
+                    <div class="postmark">
+                        <div class="postage_stamp">
+                            <div class="stamp" *ngIf="wordImage">
+                                <img [src]="wordImage.urls['thumb']" [alt]="wordImage.description" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom_line">
+                        <div class="word">{{ word.word }}</div>
+
+                        <div class="transcription">{{ word.transcription }}</div>
+                    </div>
+
+                    <div class="translation bottom_line">
+                        {{ word.translation }}
+                    </div>
+
+                    <div class="bottom_line pos">
+                        {{ word.pos }}
+                    </div>
+
+                    <div class="meaning bottom_line">
+                        {{ word.meaning }}
+                        <ng-container *ngIf="word.context">(Context: {{ word.context }})</ng-container>
+                    </div>
+
+                    <div class="bottom_line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

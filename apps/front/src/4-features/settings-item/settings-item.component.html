@@ -1,0 +1,16 @@
+<ng-contaner [ngSwitch]="setting.settingValueType">
+    <div *ngSwitchCase="'Boolean'">
+        <mat-slide-toggle>{{ setting.settingCode }}</mat-slide-toggle>
+    </div>
+
+    <div *ngSwitchCase="'Number'">
+        <mat-form-field class="example-full-width">
+            <mat-label>{{ setting.settingCode }}</mat-label>
+            <input matInput />
+        </mat-form-field>
+    </div>
+
+    <div *ngSwitchCase="'Json'">
+        {{ setting | json }}
+    </div>
+</ng-contaner>

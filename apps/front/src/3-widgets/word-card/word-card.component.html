@@ -1,0 +1,7 @@
+<div class="word_card" *ngIf="word$ | async as word">
+    <app-postcard
+        [word]="word"
+        [isVocabulary]="isVocabulary"
+        [wordImage]="word.defaultImageId ? word.defaultImage : (wordImage$ | async)"
+    ></app-postcard>
+</div>

@@ -1,0 +1,19 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+
+    .logo {
+        display: flex;
+        gap: 8px;
+    }
+
+    &.mobile {
+        width: 100%;
+        padding: 0;
+    }
+
+    // background-color: mat.get-color-from-palette(custom-theme.$app-primary, 500);
+    // color: mat.get-color-from-palette(custom-theme.$app-accent, A200);
+}

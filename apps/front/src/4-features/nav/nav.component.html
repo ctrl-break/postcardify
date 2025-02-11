@@ -1,0 +1,27 @@
+<nav *ngIf="!isMobile">
+    <button
+        *ngFor="let nav of navigation"
+        mat-button
+        [color]="color"
+        [routerLink]="[nav.link]"
+        routerLinkActive="router-link-active"
+    >
+        {{ nav.title }}
+    </button>
+</nav>
+
+<ng-container *ngIf="isMobile">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Mobile menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button
+            *ngFor="let nav of navigation"
+            [routerLink]="[nav.link]"
+            routerLinkActive="router-link-active"
+            mat-menu-item
+        >
+            <span>{{ nav.title }}</span>
+        </button>
+    </mat-menu>
+</ng-container>

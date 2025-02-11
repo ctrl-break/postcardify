@@ -7,7 +7,15 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+        "@/app/*": ["apps/front/src/1-app/*"],
+        "@/pages/*": ["apps/front/src/2-pages/*"],
+        "@/widgets/*": ["apps/front/src/3-widgets/*"],
+        "@/features/*": ["apps/front/src/4-features/*"],
+        "@/entities/*": ["apps/front/src/5-entities/*"],
+        "@/shared/*": ["apps/front/src/6-shared/*"]
+    }
   },
   "files": [],
   "include": [],

@@ -1,0 +1,19 @@
+<form [formGroup]="signInForm" (submit)="submitForm()">
+    <div class="signin_form__item">
+        <mat-form-field>
+            <mat-label>email</mat-label>
+            <input matInput formControlName="login" />
+        </mat-form-field>
+    </div>
+
+    <div class="signin_form__item">
+        <mat-form-field>
+            <mat-label>password</mat-label>
+            <input matInput formControlName="password" type="password" />
+        </mat-form-field>
+    </div>
+
+    <div class="signin_form__item">
+        <button mat-stroked-button>Login</button>
+    </div>
+</form>

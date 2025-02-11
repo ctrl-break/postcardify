@@ -1,0 +1,11 @@
+<div class="words_list" *ngIf="words$ | async as words">
+    <app-words-list-item
+        *ngFor="let word of words; trackBy: wordTrackBy"
+        [word]="word.dictionary!"
+        [vocabularyId]="word.vocabularyId"
+    >
+    </app-words-list-item>
+    <div class="loader" *ngIf="currentPage$.value < lastPage" (appInfiniteScroll)="getNextPage()">
+        <mat-progress-bar mode="buffer"></mat-progress-bar>
+    </div>
+</div>

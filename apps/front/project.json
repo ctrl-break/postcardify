@@ -22,7 +22,7 @@
             "input": "apps/front/public"
           }
         ],
-        "styles": ["apps/front/src/styles.scss"],
+        "styles": ["apps/front/src/styles.scss", "apps/front/src/theme.scss"],
         "scripts": []
       },
       "configurations": {

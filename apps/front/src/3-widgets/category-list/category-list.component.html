@@ -1,0 +1,3 @@
+<div class="category_list" *ngIf="categories$ | async as categories">
+    <app-category *ngFor="let category of categories" [category]="category"></app-category>
+</div>

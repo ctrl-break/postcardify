@@ -1,0 +1,21 @@
+<div class="word_list_item">
+    <div class="word">
+        <a [routerLink]="vocabularyId ? ['/words/vocabulary/' + vocabularyId] : ['/words/word/' + word.id]">
+            {{ word.word }}
+        </a>
+    </div>
+
+    <div class="action">
+        <button
+            mat-icon-button
+            class="action_btn"
+            aria-label="Toggle vocabulary word"
+            (click)="toggleVocabularyWord(word.id)"
+        >
+            <mat-icon *ngIf="!vocabularyId">bookmark_add</mat-icon>
+            <mat-icon *ngIf="vocabularyId">remove</mat-icon>
+        </button>
+    </div>
+
+    <span class="translation">{{ word.translation }}</span>
+</div>

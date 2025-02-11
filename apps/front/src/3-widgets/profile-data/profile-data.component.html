@@ -1,0 +1,11 @@
+<div class="user" *ngIf="userStore.profile() as user">
+    <div class="user_data">
+        <div class="user_field">{{ user.name }}</div>
+        <div class="user_field">{{ user.email }}</div>
+
+        <div class="actions">
+            <button mat-raised-button color="primary" (click)="goToSettings()">Settings</button>
+            <button mat-raised-button color="accent" (click)="logout()">Logout</button>
+        </div>
+    </div>
+</div>

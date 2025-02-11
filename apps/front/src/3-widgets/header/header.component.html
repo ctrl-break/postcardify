@@ -1,0 +1,35 @@
+<mat-toolbar color="primary">
+    <div class="container-fluid header" [ngClass]="{ mobile: mediaService.isMobile() }">
+        <!--         
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button> -->
+
+        <span class="link logo" [routerLink]="['/']" routerLinkActive="router-link-active">
+            <mat-icon
+                aria-hidden="false"
+                aria-label="Postcards"
+                fontIcon="photo_size_select_large"
+                inline="true"
+            ></mat-icon>
+            Postcards
+        </span>
+        <span class="example-spacer"></span>
+
+        <div class="theme-control flex-center">
+            <app-nav
+                [color]="themeService.themeSignal() === 'dark-theme' ? 'primary' : ''"
+                [isMobile]="mediaService.isMobile()!"
+            >
+            </app-nav>
+
+            <button mat-icon-button (click)="toggleTheme()">
+                @if (themeService.themeSignal() === 'dark-theme') {
+                    <mat-icon>bedtime</mat-icon>
+                } @else {
+                    <mat-icon>light_mode</mat-icon>
+                }
+            </button>
+        </div>
+    </div>
+</mat-toolbar>
