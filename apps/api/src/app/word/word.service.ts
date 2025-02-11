@@ -2,15 +2,13 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateWordDto, UpdateWordDto } from './word.dto';
 import { Image, Prisma, Word } from '@prisma/client';
-import { paginator } from '@nodeteam/nestjs-prisma-pagination';
-import { PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import { DEFAULT_WORDS_PER_PAGE } from '../common/constants';
 import { Photos } from 'unsplash-js/dist/methods/search/types/response';
 import { CreateImageDto } from './image/image.dto';
 import { ImageService } from './image/image.service';
 import { UnsplashService } from './image/unsplash/unsplash.service';
+import { PageDto } from '../common/dto/page.dto';
 
-const paginate: PaginatorTypes.PaginateFunction = paginator({ page: 1, perPage: DEFAULT_WORDS_PER_PAGE });
 
 @Injectable()
 export class WordService {
@@ -27,26 +25,35 @@ export class WordService {
 	async findWords({
 		where,
 		orderBy,
-		page,
-		perPage,
-	}: {
+		page = 1,
+		perPage = DEFAULT_WORDS_PER_PAGE,
+	  }: {
 		where?: Prisma.WordWhereInput;
 		orderBy?: Prisma.WordOrderByWithRelationInput;
 		page?: number;
 		perPage?: number;
-	}): Promise<PaginatorTypes.PaginatedResult<Word>> {
-		return paginate(
-			this.prisma.word,
-			{
-				where: { ...where, isVisible: true },
-				orderBy: { id: 'asc', ...orderBy },
-			},
-			{
-				page,
-				perPage,
-			},
-		);
-	}
+	  }): Promise<PageDto<Word>> {
+		const skip = (page - 1) * perPage;
+		const take = perPage;
+		const result = await this.prisma.word.findMany({
+		  where: { ...where, isVisible: true },
+		  orderBy: { id: 'asc', ...orderBy },
+		  skip,
+		  take,
+		});
+
+		return {
+		  data: result,
+		  meta: {
+			total: await this.prisma.word.count({ where: { ...where, isVisible: true } }),
+			perPage,
+			lastPage: Math.ceil((await this.prisma.word.count({ where: { ...where, isVisible: true } })) / perPage),
+			currentPage: page,
+			prev: page > 1 ? page - 1 : null,
+			next: page < Math.ceil((await this.prisma.word.count({ where: { ...where, isVisible: true } })) / perPage) ? page + 1 : null,
+		  }
+		}
+	  }
 
 	async findWordById(id: number): Promise<Word> {
 		const word = await this.prisma.word.findUnique({ where: { id, isVisible: true }, include: { defaultImage: true } });
@@ -97,8 +104,8 @@ export class WordService {
 			externalId: image.id,
 			authorLink: image.user.links.html,
 			authorName: image.user.name,
-			blurHash: image.blur_hash!,
-			description: image.description!,
+			blurHash: image.blur_hash,
+			description: image.description,
 		};
 	}
 }

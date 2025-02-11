@@ -2,10 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CategoryAssociationDto, CreateCategoryDto, UpdateCategoryDto } from './category.dto';
 import { Category, CategoryAssociation, Prisma } from '@prisma/client';
-import { PaginatorTypes, paginator } from '@nodeteam/nestjs-prisma-pagination';
-import { DEFAULT_WORDS_PER_PAGE } from '../../common/constants';
+import { PageDto } from '../../common/dto/page.dto';
 
-const paginate: PaginatorTypes.PaginateFunction = paginator({ page: 1, perPage: DEFAULT_WORDS_PER_PAGE });
 
 @Injectable()
 export class CategoryService {
@@ -54,21 +52,30 @@ export class CategoryService {
 		orderBy?: Prisma.CategoryAssociationOrderByWithRelationInput;
 		page?: number;
 		perPage?: number;
-	}): Promise<PaginatorTypes.PaginatedResult<CategoryAssociationDto>> {
-		return paginate(
-			this.prisma.categoryAssociation,
-			{
-				where: { ...where, vocabularyId: null },
-				orderBy: { id: 'asc', ...orderBy },
-				include: {
-					dictionary: true,
-				},
+	}): Promise<PageDto<CategoryAssociationDto>> {
+		const skip = (page - 1) * perPage;
+		const take = perPage;
+		const result = await this.prisma.categoryAssociation.findMany({
+			where: { ...where, vocabularyId: null },
+			orderBy: { id: 'asc', ...orderBy },
+			include: {
+			  dictionary: true,
 			},
-			{
-				page,
-				perPage,
-			},
-		);
+			skip,
+			take,
+		  });
+
+		  return {
+			data: result,
+			meta: {
+			  perPage,
+			  total: await this.prisma.categoryAssociation.count({ where: { ...where, vocabularyId: null } }),
+			  lastPage: Math.ceil((await this.prisma.categoryAssociation.count({ where: { ...where, vocabularyId: null } })) / perPage),
+			  prev: page > 1 ? page - 1 : null,
+			  next: page < Math.ceil((await this.prisma.categoryAssociation.count({ where: { ...where, vocabularyId: null } })) / perPage) ? page + 1 : null,
+			  currentPage: page,
+			}
+		  }
 	}
 
 	async updateCategory(id: number, data: UpdateCategoryDto): Promise<Category> {

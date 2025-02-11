@@ -4,8 +4,9 @@ import { WordService } from './word.service';
 import { CreateWordDto, UpdateWordDto, WordDto } from './word.dto';
 import { Roles } from '../common/decorators';
 import { Image, Role, Word } from '@prisma/client';
-import { PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
 import { ImageDto } from './image/image.dto';
+import { PageDto } from '../common/dto/page.dto';
+import { DEFAULT_WORDS_PER_PAGE } from '../common/constants';
 
 @Controller('words/word')
 export class WordController {
@@ -23,8 +24,8 @@ export class WordController {
 	@ApiBearerAuth('jwt')
 	@ApiResponse({ status: HttpStatus.OK, type: WordDto, isArray: true })
 	@Roles(Role.ADMIN)
-	async findPagedWords(@Query('page') page: string, @Query('perPage') perPage: string): Promise<PaginatorTypes.PaginatedResult<Word>> {
-		return await this.wordService.findWords({ where: {}, orderBy: {}, page: +page, perPage: +perPage });
+	async findPagedWords(@Query('page') page: string, @Query('perPage') perPage: string): Promise<PageDto<Word>> {
+		return await this.wordService.findWords({ where: {}, orderBy: {}, page: +page || 1, perPage: +perPage || DEFAULT_WORDS_PER_PAGE });
 	}
 
 	@Get(':id/update-image')

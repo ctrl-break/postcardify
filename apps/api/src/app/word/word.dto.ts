@@ -93,7 +93,7 @@ export class WordDto {
 
 	@ApiProperty({ required: false })
 	@IsOptional()
-	defaultImage: ImageDto;
+	defaultImage?: ImageDto;
 
 	@ApiProperty({ required: false, enum: $Enums.Part_of_Speech, enumName: 'Part_of_Speech' })
 	@IsOptional()

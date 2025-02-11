@@ -4,8 +4,8 @@ import { CategoryAssociationDto, CategoryDto, CreateCategoryDto, UpdateCategoryD
 import { UserRequest } from '../../auth/token.model';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Category } from '@prisma/client';
-import { PaginatorTypes } from '@nodeteam/nestjs-prisma-pagination';
-import { ApiPaginatedResponse } from '../../common/dto/page.dto';
+import { ApiPaginatedResponse, PageDto } from '../../common/dto/page.dto';
+import { DEFAULT_WORDS_PER_PAGE } from '../../common/constants';
 
 @Controller('words/category')
 export class CategoryController {
@@ -50,8 +50,8 @@ export class CategoryController {
 		@Param('id') id: string,
 		@Query('page') page: string,
 		@Query('perPage') perPage: string,
-	): Promise<PaginatorTypes.PaginatedResult<CategoryAssociationDto>> {
-		return await this.categoryService.findWordsByCategory({ where: { categoryId: +id }, orderBy: {}, page: +page, perPage: +perPage });
+	): Promise<PageDto<CategoryAssociationDto>> {
+		return await this.categoryService.findWordsByCategory({ where: { categoryId: +id }, orderBy: {}, page: +page || 1, perPage: +perPage || DEFAULT_WORDS_PER_PAGE });
 	}
 
 	@Put(':id')
