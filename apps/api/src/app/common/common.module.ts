@@ -3,7 +3,7 @@ import { PasswordService } from './services/password.service';
 
 @Global()
 @Module({
-	providers: [PasswordService],
-	exports: [PasswordService],
+    providers: [PasswordService],
+    exports: [PasswordService],
 })
 export class CommonModule {}

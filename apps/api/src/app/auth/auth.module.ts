@@ -10,8 +10,8 @@ import { options } from './config';
 import { SettingsModule } from '../profile/settings/settings.module';
 
 @Module({
-	imports: [PassportModule, UserModule, SettingsModule, JwtModule.registerAsync(options())],
-	providers: [AuthService, ...STRATEGIES, ...GUARDS],
-	controllers: [AuthController],
+    imports: [PassportModule, UserModule, SettingsModule, JwtModule.registerAsync(options())],
+    providers: [AuthService, ...STRATEGIES, ...GUARDS],
+    controllers: [AuthController],
 })
 export class AuthModule {}

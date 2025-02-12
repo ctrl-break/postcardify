@@ -3,22 +3,22 @@ import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class PasswordService {
-	private saltRounds = 10;
+    private saltRounds = 10;
 
-	/**
-	 * Return hash
-	 * @param password Plain password
-	 */
-	getHash(password: string): Promise<string> {
-		return hash(password, this.saltRounds);
-	}
+    /**
+     * Return hash
+     * @param password Plain password
+     */
+    getHash(password: string): Promise<string> {
+        return hash(password, this.saltRounds);
+    }
 
-	/**
-	 * Compare plain password with password hash
-	 * @param password Plain password
-	 * @param passwordHash Password hash
-	 */
-	compareHash(password: string, passwordHash: string): Promise<boolean> {
-		return compare(password, passwordHash);
-	}
+    /**
+     * Compare plain password with password hash
+     * @param password Plain password
+     * @param passwordHash Password hash
+     */
+    compareHash(password: string, passwordHash: string): Promise<boolean> {
+        return compare(password, passwordHash);
+    }
 }

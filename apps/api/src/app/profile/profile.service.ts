@@ -5,13 +5,13 @@ import { ProfileDto } from './profile.dto';
 
 @Injectable()
 export class ProfileService {
-	constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService) {}
 
-	async getProfileData(userId: number): Promise<ProfileDto> {
-		const user = await this.prisma.user.findFirst({ where: { id: userId } });
-		if (user) {
-			return new UserResponse(user);
-		}
-		throw new NotFoundException(`User not found`);
-	}
+    async getProfileData(userId: number): Promise<ProfileDto> {
+        const user = await this.prisma.user.findFirst({ where: { id: userId } });
+        if (user) {
+            return new UserResponse(user);
+        }
+        throw new NotFoundException(`User not found`);
+    }
 }

@@ -7,102 +7,106 @@ import { WordUsageDto } from './usage/usage.dto';
 import { ImageDto } from './image/image.dto';
 
 export class CreateWordDto {
-	@ApiProperty()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	word: string;
+    @ApiProperty()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    word: string;
 
-	@ApiProperty()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	translation: string;
+    @ApiProperty()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    translation: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_MEANING_LENGTH)
-	meaning?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_MEANING_LENGTH)
+    meaning?: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	transcription?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    transcription?: string;
 }
 
 export class UpdateWordDto {
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	word?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    word?: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	translation?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    translation?: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_MEANING_LENGTH)
-	meaning?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_MEANING_LENGTH)
+    meaning?: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsString()
-	@MaxLength(MAX_WORD_LENGTH)
-	transcription?: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsString()
+    @MaxLength(MAX_WORD_LENGTH)
+    transcription?: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	@IsNumber()
-	@Transform(({ value }) => parseInt(value))
-	defaultImageId?: number;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    @IsNumber()
+    @Transform(({ value }) => parseInt(value))
+    defaultImageId?: number;
 }
 
 export class WordDto {
-	@ApiProperty()
-	id: number;
+    @ApiProperty()
+    id: number;
 
-	@ApiProperty()
-	word: string;
+    @ApiProperty()
+    word: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	context: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    context: string;
 
-	@ApiProperty()
-	translation: string;
+    @ApiProperty()
+    translation: string;
 
-	@ApiProperty({ type: 'object', additionalProperties: true })
-	translateVariants: Prisma.JsonValue;
+    @ApiProperty({ type: 'object', additionalProperties: true })
+    translateVariants: Prisma.JsonValue;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	meaning: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    meaning: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	transcription: string;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    transcription: string;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	defaultImageId: number;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    defaultImageId: number;
 
-	@ApiProperty({ required: false })
-	@IsOptional()
-	defaultImage?: ImageDto;
+    @ApiProperty({ required: false })
+    @IsOptional()
+    defaultImage?: ImageDto;
 
-	@ApiProperty({ required: false, enum: $Enums.Part_of_Speech, enumName: 'Part_of_Speech' })
-	@IsOptional()
-	pos: $Enums.Part_of_Speech | null;
+    @ApiProperty({
+        required: false,
+        enum: $Enums.Part_of_Speech,
+        enumName: 'Part_of_Speech',
+    })
+    @IsOptional()
+    pos: $Enums.Part_of_Speech | null;
 
-	@ApiProperty()
-	isVisible: boolean;
+    @ApiProperty()
+    isVisible: boolean;
 
-	@ApiProperty({ required: false, isArray: true })
-	@IsOptional()
-	usages?: WordUsageDto;
+    @ApiProperty({ required: false, isArray: true })
+    @IsOptional()
+    usages?: WordUsageDto;
 }

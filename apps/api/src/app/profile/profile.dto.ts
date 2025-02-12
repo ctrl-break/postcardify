@@ -2,20 +2,20 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserResponse } from '../user/responses';
 
 export class ProfileDto extends UserResponse {
-	@ApiProperty({ required: false })
-	id?: number;
+    @ApiProperty({ required: false })
+    id?: number;
 
-	@ApiProperty({ required: false })
-	name?: string;
+    @ApiProperty({ required: false })
+    name?: string;
 
-	@ApiProperty({ required: false })
-	updatedAt?: string;
+    @ApiProperty({ required: false })
+    updatedAt?: string;
 
-	@ApiProperty({ required: false })
-	createdAt?: string;
+    @ApiProperty({ required: false })
+    createdAt?: string;
 
-	@ApiProperty({ required: false })
-	email?: string;
+    @ApiProperty({ required: false })
+    email?: string;
 }
 
 /*

@@ -7,16 +7,16 @@ import { ProfileDto } from './profile.dto';
 
 @Controller('profile')
 export class ProfileController {
-	constructor(private readonly profileService: ProfileService) {}
+    constructor(private readonly profileService: ProfileService) {}
 
-	@Get()
-	@ApiBearerAuth('jwt')
-	@ApiResponse({ status: HttpStatus.OK, type: ProfileDto })
-	async getProfileData(@Req() req: UserRequest): Promise<UserResponse> {
-		const id = req.user?.id;
-		if (id) {
-			return await this.profileService.getProfileData(id);
-		}
-		throw new UnauthorizedException();
-	}
+    @Get()
+    @ApiBearerAuth('jwt')
+    @ApiResponse({ status: HttpStatus.OK, type: ProfileDto })
+    async getProfileData(@Req() req: UserRequest): Promise<UserResponse> {
+        const id = req.user?.id;
+        if (id) {
+            return await this.profileService.getProfileData(id);
+        }
+        throw new UnauthorizedException();
+    }
 }

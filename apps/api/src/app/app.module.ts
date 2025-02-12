@@ -14,26 +14,26 @@ import { RolesGuard } from './auth/guards/roles.guard';
 import { ProfileModule } from './profile/profile.module';
 
 @Module({
-	imports: [
-		UserModule,
-		PrismaModule,
-		AuthModule,
-		ConfigModule.forRoot({ isGlobal: true }),
-		CommonModule,
-		WordModule,
-		ProfileModule,
-	],
-	controllers: [AppController],
-	providers: [
-		AppService,
-		{
-			provide: APP_GUARD,
-			useClass: JwtGuard,
-		},
-		{
-			provide: APP_GUARD,
-			useClass: RolesGuard,
-		},
-	],
+    imports: [
+        UserModule,
+        PrismaModule,
+        AuthModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+        CommonModule,
+        WordModule,
+        ProfileModule,
+    ],
+    controllers: [AppController],
+    providers: [
+        AppService,
+        {
+            provide: APP_GUARD,
+            useClass: JwtGuard,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        },
+    ],
 })
 export class AppModule {}

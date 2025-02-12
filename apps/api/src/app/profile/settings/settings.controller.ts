@@ -7,16 +7,16 @@ import { UserSettingDto } from './settings.dto';
 
 @Controller('profile/settings')
 export class SettingsController {
-	constructor(private readonly settingService: SettingsService) {}
+    constructor(private readonly settingService: SettingsService) {}
 
-	@Get()
-	@ApiBearerAuth('jwt')
-	@ApiResponse({ status: HttpStatus.OK, type: UserSettingDto, isArray: true })
-	async getUserSettings(@Req() req: UserRequest): Promise<UserSetting[]> {
-		const id = req.user?.id;
-		if (id) {
-			return await this.settingService.getUserSettings(id);
-		}
-		throw new UnauthorizedException();
-	}
+    @Get()
+    @ApiBearerAuth('jwt')
+    @ApiResponse({ status: HttpStatus.OK, type: UserSettingDto, isArray: true })
+    async getUserSettings(@Req() req: UserRequest): Promise<UserSetting[]> {
+        const id = req.user?.id;
+        if (id) {
+            return await this.settingService.getUserSettings(id);
+        }
+        throw new UnauthorizedException();
+    }
 }

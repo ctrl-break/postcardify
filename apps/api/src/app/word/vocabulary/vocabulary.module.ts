@@ -5,8 +5,8 @@ import { ImageModule } from '../image/image.module';
 import { UsageModule } from '../usage/usage.module';
 
 @Module({
-	imports: [UsageModule, ImageModule],
-	providers: [VocabularyService],
-	controllers: [VocabularyController],
+    imports: [UsageModule, ImageModule],
+    providers: [VocabularyService],
+    controllers: [VocabularyController],
 })
 export class VocabularyModule {}

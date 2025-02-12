@@ -4,8 +4,8 @@ import { ImageController } from './image.controller';
 import { UnsplashService } from './unsplash/unsplash.service';
 
 @Module({
-	providers: [ImageService, UnsplashService],
-	controllers: [ImageController],
-	exports: [ImageService, UnsplashService],
+    providers: [ImageService, UnsplashService],
+    controllers: [ImageController],
+    exports: [ImageService, UnsplashService],
 })
 export class ImageModule {}
