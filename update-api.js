@@ -1,11 +1,17 @@
 const fs = require('fs');
 
-fs.unlinkSync('./apps/front/src/6-shared/api/generated/services.ts');
-
 fs.writeFileSync(
     './apps/front/src/6-shared/api/generated/services/index.ts',
     `
-export { ApiService } from './api.service';
+export { AppService } from './app.service';
+export { AuthService } from './auth.service';
+export { SettingsService } from './settings.service';
+export { WordService } from './word.service';
+export { VocabularyService } from './vocabulary.service';
+export { UsageService } from './usage.service';
+export { ImageService } from './image.service';
+export { CategoryService } from './category.service';
+export { ProfileService } from './profile.service';
 
 `,
     function (err) {
@@ -19,7 +25,7 @@ export { ApiService } from './api.service';
 fs.writeFileSync(
     './apps/front/src/6-shared/api/generated/index.ts',
     `
-export { ApiService } from './services';
+export * from './services';
 export { ApiConfiguration } from './api-configuration';
 export * from './models';
 

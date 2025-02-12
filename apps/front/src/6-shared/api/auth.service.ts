@@ -9,10 +9,7 @@ import { API_AUTH, httpOptions } from '../lib';
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(
-        private http: HttpClient,
-        private cookieService: CookieService,
-    ) {}
+    constructor(private http: HttpClient, private cookieService: CookieService) {}
 
     setTokensCookie(accessToken: string) {
         const decodedToken = jwtDecode(accessToken);

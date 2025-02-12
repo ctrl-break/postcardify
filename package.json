@@ -2,7 +2,10 @@
   "name": "postcardify",
   "version": "0.0.1",
   "license": "AGPL-3.0",
-  "scripts": {},
+  "scripts": {
+    "format": "prettier --write \"apps/**/*.{ts,html,scss}\"",
+    "generate-api": "ng-openapi-gen --serviceIndex=api-services -i http://localhost:3000/swagger-yaml -o ./apps/front/src/6-shared/api/generated && node update-api && npm run format"
+  },
   "dependencies": {
     "@angular-architects/ngrx-toolkit": "^19.0.2",
     "@angular/animations": "~19.1.0",
@@ -83,7 +86,7 @@
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "jsdom": "~22.1.0",
-    "ng-openapi-gen": "^0.52.0",
+    "ng-openapi-gen": "=0.52.0",
     "nx": "20.4.2",
     "pg-promise": "^11.10.2",
     "prettier": "^2.6.2",

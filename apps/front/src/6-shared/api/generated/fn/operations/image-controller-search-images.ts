@@ -24,7 +24,9 @@ export function imageControllerSearchImages(
     return http.request(rb.build({ responseType: 'text', accept: '*/*', context })).pipe(
         filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
         map((r: HttpResponse<any>) => {
-            return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+            return (r as HttpResponse<any>).clone({
+                body: undefined,
+            }) as StrictHttpResponse<void>;
         }),
     );
 }
