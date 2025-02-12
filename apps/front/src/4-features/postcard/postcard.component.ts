@@ -11,12 +11,13 @@ import { VocabularyStore } from '@/shared/lib/stores';
     imports: [CommonModule, MatButtonModule, MatIconModule],
     templateUrl: './postcard.component.html',
     styleUrl: './postcard.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostcardComponent {
     @Input() word!: WordDto;
     @Input() wordImage?: ImageDto | null;
     @Input() isVocabulary?: boolean | null;
+    @Input() showActions: boolean | null = true;
 
     private location = inject(Location);
     mediaService = inject(MediaService);

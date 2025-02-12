@@ -3,23 +3,24 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostcardComponent } from '@/features/postcard';
-import { ApiService, ImageDto, WordDto } from '@/shared/api/generated';
 import { VocabularyStore } from '@/shared/lib/stores';
+import { ImageDto, VocabularyService, WordDto, WordService } from '@/shared/api/generated';
 
 @Component({
     selector: 'app-word-card',
     imports: [CommonModule, PostcardComponent],
     templateUrl: './word-card.component.html',
     styleUrl: './word-card.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WordCardComponent {
-    apiService = inject(ApiService);
+    vocabularyService = inject(VocabularyService);
+    wordService = inject(WordService);
     route = inject(ActivatedRoute);
     router = inject(Router);
     vocabularyStore = inject(VocabularyStore);
 
-    isVocabularyRoute: boolean = false;
+    isVocabularyRoute = false;
     wordId?: string;
     isVocabulary = false;
 
@@ -53,12 +54,12 @@ export class WordCardComponent {
 
     getWord = (id: string): Observable<WordDto> =>
         this.isVocabularyRoute
-            ? this.apiService.vocabularyControllerFindOne({ id }).pipe(
+            ? this.vocabularyService.vocabularyControllerFindOne({ id }).pipe(
                   map((voc) => ({
                       ...voc.word!,
                   })),
               )
-            : this.apiService.wordControllerFindOne({ id });
+            : this.wordService.wordControllerFindOne({ id });
 
     getWordIdFromVocabulary(id: string): string {
         return (
@@ -72,8 +73,10 @@ export class WordCardComponent {
     updateWordImage = (id: string): Observable<ImageDto | null> => {
         if (this.isVocabularyRoute) {
             const wordId = this.getWordIdFromVocabulary(id);
-            return this.apiService.wordControllerFindOneAndUpdateImage({ id: wordId });
+            return this.wordService.wordControllerFindOneAndUpdateImage({
+                id: wordId,
+            });
         }
-        return this.apiService.wordControllerFindOneAndUpdateImage({ id });
+        return this.wordService.wordControllerFindOneAndUpdateImage({ id });
     };
 }

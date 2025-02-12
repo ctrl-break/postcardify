@@ -8,7 +8,7 @@ import { CategoryDto } from '@/shared/api/generated';
     imports: [CommonModule, RouterLink],
     templateUrl: './category.component.html',
     styleUrl: './category.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent {
     @Input() category!: CategoryDto | null;

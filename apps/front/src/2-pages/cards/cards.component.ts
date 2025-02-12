@@ -9,7 +9,7 @@ import { LayoutComponent } from '../layout';
     imports: [CommonModule, LayoutComponent, WordsListItemComponent],
     templateUrl: './cards.component.html',
     styleUrl: './cards.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CardsComponent {
     vocabularyStore = inject(VocabularyStore);

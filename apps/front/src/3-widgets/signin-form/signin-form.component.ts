@@ -10,7 +10,7 @@ import { MatForms } from '@/shared/ui/mat-forms';
     selector: 'app-signin-form',
     imports: [MatForms],
     templateUrl: './signin-form.component.html',
-    styleUrl: './signin-form.component.scss'
+    styleUrl: './signin-form.component.scss',
 })
 export class SigninFormComponent {
     private authService = inject(AuthService);
@@ -43,7 +43,9 @@ export class SigninFormComponent {
             error: (err) => {
                 console.error(err);
                 if (err.status === 401) {
-                    this.snackBar.open('Invalid username or password', 'Ok', { duration: 5000 });
+                    this.snackBar.open('Invalid username or password', 'Ok', {
+                        duration: 5000,
+                    });
                 }
                 if (err.status === 400) {
                     this.snackBar.open('Invalid password', 'Ok', { duration: 5000 });

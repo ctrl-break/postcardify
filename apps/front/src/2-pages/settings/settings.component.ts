@@ -7,6 +7,6 @@ import { LayoutComponent } from '../layout';
     imports: [LayoutComponent, SettingsDataComponent],
     templateUrl: './settings.component.html',
     styleUrl: './settings.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsComponent {}

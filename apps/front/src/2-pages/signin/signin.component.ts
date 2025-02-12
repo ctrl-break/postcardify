@@ -7,6 +7,6 @@ import { SigninFormComponent } from '@/widgets/signin-form';
     imports: [CommonModule, SigninFormComponent],
     templateUrl: './signin.component.html',
     styleUrl: './signin.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SigninComponent {}

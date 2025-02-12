@@ -2,8 +2,8 @@ import { computed, inject } from '@angular/core';
 import { withDevtools } from '@angular-architects/ngrx-toolkit';
 import { signalStore, withHooks, withMethods, withState, patchState, withComputed } from '@ngrx/signals';
 import { firstValueFrom } from 'rxjs';
-import { ApiService, VocabularyDto } from '@/shared/api/generated';
 import { sortByLowerCaseUserWord } from '../helpers';
+import { VocabularyDto, VocabularyService } from '@/shared/api/generated';
 
 export interface VocabularyState {
     isInited: boolean;
@@ -26,15 +26,18 @@ export const VocabularyStore = signalStore(
                 .map((voc) => ({ vocabularyId: voc.id, wordId: voc.wordId })),
         ),
     })),
-    withMethods((store, apiService = inject(ApiService)) => ({
+    withMethods((store, vocService = inject(VocabularyService)) => ({
         initVocabulary() {
-            return firstValueFrom(apiService.vocabularyControllerGetUserVocabulary()).then((vocabulary) => {
-                patchState(store, { isInited: true, vocabulary: vocabulary.sort(sortByLowerCaseUserWord) });
+            return firstValueFrom(vocService.vocabularyControllerGetUserVocabulary()).then((vocabulary) => {
+                patchState(store, {
+                    isInited: true,
+                    vocabulary: vocabulary.sort(sortByLowerCaseUserWord),
+                });
             });
         },
         async addToVocabulary(wordId: number) {
             const params = { body: { wordId } };
-            const word = await firstValueFrom(apiService.vocabularyControllerCreate(params));
+            const word = await firstValueFrom(vocService.vocabularyControllerCreate(params));
             console.log(store.vocabulary(), word);
 
             patchState(store, {
@@ -48,8 +51,10 @@ export const VocabularyStore = signalStore(
                 return;
             }
             const params = { id: vocabularyId.toString() };
-            const word = await firstValueFrom(apiService.vocabularyControllerRemove(params));
-            patchState(store, { vocabulary: [...store.vocabulary().filter((v) => v.id !== word.id)] });
+            const word = await firstValueFrom(vocService.vocabularyControllerRemove(params));
+            patchState(store, {
+                vocabulary: [...store.vocabulary().filter((v) => v.id !== word.id)],
+            });
         },
 
         resetVocabulary() {

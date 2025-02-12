@@ -11,7 +11,7 @@ import { VocabularyStore } from '@/shared/lib/stores';
     imports: [RouterLink, MatButtonModule, MatIconModule, CommonModule],
     templateUrl: './words-list-item.component.html',
     styleUrl: './words-list-item.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WordsListItemComponent {
     vocabularyStore = inject(VocabularyStore);

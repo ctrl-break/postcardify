@@ -7,6 +7,6 @@ import { LayoutComponent } from '../layout';
     imports: [LayoutComponent, WordCardComponent],
     templateUrl: './word.component.html',
     styleUrl: './word.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WordComponent {}

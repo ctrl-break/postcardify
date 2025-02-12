@@ -1,9 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 
-<div class="actions">
+<div class="actions" *ngIf="showActions">
     <div class="left">
-        <button mat-fab color="primary" (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
+        <button mat-fab color="primary" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
         <button mat-fab color="primary" (click)="toggleVocabulary()">
             <mat-icon *ngIf="isVocabulary">remove</mat-icon>
             <mat-icon *ngIf="!isVocabulary">bookmark_add</mat-icon>
@@ -11,11 +13,13 @@
     </div>
 
     <div class="right">
-        <button mat-fab color="primary" (click)="flipped = !flipped"><mat-icon>rotate_right</mat-icon></button>
+        <button mat-fab color="primary" (click)="flipped = !flipped">
+            <mat-icon>rotate_right</mat-icon>
+        </button>
     </div>
 </div>
 
-<div class="postcard_wrapper" [ngClass]="{ flipped: flipped }">
+<div class="postcard_wrapper" [ngClass]="{ flipped: flipped }" (click)="showActions ? null : (flipped = !flipped)">
     <div class="picture" [ngClass]="{ colored: !wordImage }">
         <img class="fitted" *ngIf="wordImage" [src]="wordImage.urls['regular']" [alt]="wordImage.description" />
         <img class="contained" *ngIf="wordImage" [src]="wordImage.urls['regular']" [alt]="wordImage.description" />

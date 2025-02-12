@@ -12,7 +12,7 @@ import { UserStore, VocabularyStore } from '@/shared/lib/stores';
     selector: 'app-root',
     imports: [CommonModule, RouterOutlet, MatSidenavModule, InitialLoaderComponent],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    styleUrl: './app.component.scss',
 })
 export class AppComponent {
     isStoresLoaded = false;

@@ -1,35 +1,67 @@
-:host {
-    display: block;
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+
+    &__content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    &__button {
+        display: inline-block;
+        padding: 12px 24px;
+        background: #ff4081;
+        color: #fff;
+        font-size: 1.2rem;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.3s;
+
+        &:hover {
+            background: #e91e63;
+        }
+    }
 }
 
-section {
-    display: table;
-}
+.how-it-works {
+    text-align: center;
+    padding: 60px 20px;
 
-.example-label {
-    display: table-cell;
-    font-size: 14px;
-    margin-left: 8px;
-    min-width: 120px;
-}
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 30px;
+    }
 
-.example-button-row {
-    display: table-cell;
-    max-width: 600px;
-}
+    &__steps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
 
-.example-button-row .mat-mdc-button-base {
-    margin: 8px 8px 8px 0;
-}
+    .step {
+        padding: 20px;
+        border-radius: 8px;
+        width: 280px;
 
-.example-flex-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
+        h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
 
-.example-button-container {
-    display: flex;
-    justify-content: center;
-    width: 120px;
+        p {
+            font-size: 1rem;
+            color: #666;
+        }
+    }
 }

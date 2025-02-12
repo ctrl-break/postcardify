@@ -6,6 +6,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     imports: [MatProgressSpinnerModule],
     templateUrl: './initial-loader.component.html',
     styleUrl: './initial-loader.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InitialLoaderComponent {}

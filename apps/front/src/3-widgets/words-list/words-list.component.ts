@@ -5,21 +5,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, combineLatest, delay, map, of, scan, switchMap, tap } from 'rxjs';
 import { WordsListItemComponent } from '@/features/words-list-item';
-import { ApiService, CategoryAssociationDto } from '@/shared/api/generated';
 import { INFINITE_SCROLL_PAGE_SIZE } from '@/shared/lib';
 import { CategoryAssociation } from '@/shared/lib/models';
 import { UserStore, VocabularyStore } from '@/shared/lib/stores';
 import { InfiniteScrollDirective } from '@/shared/ui/infinitive-scroll';
+import { CategoryAssociationDto, CategoryService } from '@/shared/api/generated';
 
 @Component({
     selector: 'app-words-list',
     imports: [CommonModule, WordsListItemComponent, InfiniteScrollDirective, MatProgressBarModule],
     templateUrl: './words-list.component.html',
     styleUrl: './words-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WordsListComponent {
-    apiService = inject(ApiService);
+    categoryService = inject(CategoryService);
     route = inject(ActivatedRoute);
     userStore = inject(UserStore);
     vocabularyStore = inject(VocabularyStore);
@@ -59,7 +59,7 @@ export class WordsListComponent {
             perPage: INFINITE_SCROLL_PAGE_SIZE.toString(),
             page: pageNumber.toString(),
         };
-        return this.apiService.categoryControllerFindWordsByCategory(params).pipe(
+        return this.categoryService.categoryControllerFindWordsByCategory(params).pipe(
             delay(300),
             tap(({ meta }) => {
                 this.loading = false;

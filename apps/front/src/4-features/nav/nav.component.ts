@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     imports: [CommonModule, MatButtonModule, MatMenuModule, MatIconModule, RouterLink, RouterLinkActive],
     templateUrl: './nav.component.html',
     styleUrl: './nav.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavComponent {
     @Input() color = 'primary';

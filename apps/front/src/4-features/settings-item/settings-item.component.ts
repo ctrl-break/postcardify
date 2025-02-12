@@ -8,7 +8,7 @@ import { MatForms } from '@/shared/ui/mat-forms';
     imports: [CommonModule, MatForms],
     templateUrl: './settings-item.component.html',
     styleUrl: './settings-item.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsItemComponent {
     @Input() setting!: UserSettingDto;

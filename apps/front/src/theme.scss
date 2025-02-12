@@ -9,45 +9,50 @@ $light-bg-color: #fffafa;
 $semi-light-bg-color: #c0c0c0;
 $dark-text-color: #333;
 
-
 html {
-
     a {
         color: #005cbb;
     }
 
-    @include mat.theme((
-        color: (
-          primary: mat.$azure-palette,
-          theme-type: light,
-        ),
-        typography: Roboto,
-        density: 0
-      ));
+    @include mat.theme(
+        (
+            color: (
+                primary: mat.$azure-palette,
+                theme-type: light,
+            ),
+            typography: Roboto,
+            density: 0,
+        )
+    );
 
     .light-theme {
         background-color: $light-bg-color;
         color: $dark-text-color;
-        @include mat.toolbar-overrides((
-            container-background-color: #dbe4fa,
-        ));
+        @include mat.toolbar-overrides(
+            (
+                container-background-color: #dbe4fa,
+            )
+        );
     }
 
     .dark-theme {
         color-scheme: dark;
         background-color: $dark-bg-color;
         color: $light-text-color;
-        @include mat.theme((
-            color: (
-                primary: mat.$cyan-palette,
-                tertiary: mat.$orange-palette,
-              ),
-        ));
-        @include mat.toolbar-overrides((
-            container-background-color: #1a1c20,
-        ));
+        @include mat.theme(
+            (
+                color: (
+                    primary: mat.$cyan-palette,
+                    tertiary: mat.$orange-palette,
+                ),
+            )
+        );
+        @include mat.toolbar-overrides(
+            (
+                container-background-color: #1a1c20,
+            )
+        );
     }
-
 
     .dark-text {
         color: $dark-text-color;
@@ -57,8 +62,6 @@ html {
         color: $light-text-color;
     }
 }
-
-
 
 // $dark-theme: mat.define-theme(
 //     (
@@ -83,7 +86,6 @@ html {
 //         typography: mat.m2-define-typography-config(),
 //     )
 // );
-
 
 // // @include mat.core();
 // // @include matx.color-variants-back-compat($dark-theme);

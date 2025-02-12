@@ -8,7 +8,7 @@ import { UserStore } from '@/shared/lib/stores';
     imports: [CommonModule, SettingsItemComponent],
     templateUrl: './settings-data.component.html',
     styleUrl: './settings-data.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsDataComponent {
     userStore = inject(UserStore);
