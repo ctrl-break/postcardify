@@ -20,7 +20,6 @@ export class WordsComponent {
     categoryService = inject(CategoryService);
 
     category$ = this.route.params.pipe(
-        tap((p) => console.log(p)),
         distinctUntilKeyChanged('id'),
         switchMap((params) => this.categoryService.categoryControllerFindOne({ id: params['id'] })),
     );

@@ -1,3 +1,9 @@
-<div class="category_item link" *ngIf="category" [routerLink]="['/words/' + category.id + '/list']">
+<!-- <div class="category_item link" *ngIf="category" [routerLink]="['/words/' + category.id + '/list']">
     {{ category.name }}
-</div>
+</div> -->
+
+<mat-list-item class="category_item link" *ngIf="category" [routerLink]="['/words/' + category.id + '/list']">
+    <mat-icon matListItemIcon>note</mat-icon>
+    <div matListItemTitle class="category_item_name">{{ category.name }}</div>
+    <div matListItemLine class="category_item_descr">{{ category.description }}</div>
+</mat-list-item>

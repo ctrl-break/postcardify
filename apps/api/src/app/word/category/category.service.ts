@@ -90,8 +90,6 @@ export class CategoryService {
             }),
         ]);
 
-        console.log(result.length, total, firstLetter);
-
         const lastPage = Math.ceil(total / perPage);
 
         return {
