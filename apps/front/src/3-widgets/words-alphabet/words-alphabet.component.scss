@@ -1,0 +1,21 @@
+.alphabet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin: 0 auto;
+    padding: 0;
+
+    .letter {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 8px;
+        color: var(--mat-sys-primary);
+
+        &:hover {
+            color: var(--mat-sys-secondary);
+        }
+    }
+}

@@ -1,11 +1,20 @@
-<div class="words_list" *ngIf="words$ | async as words">
-    <app-words-list-item
-        *ngFor="let word of words; trackBy: wordTrackBy"
-        [word]="word.dictionary!"
-        [vocabularyId]="word.vocabularyId"
-    >
-    </app-words-list-item>
-    <div class="loader" *ngIf="currentPage$.value < lastPage" (appInfiniteScroll)="getNextPage()">
-        <mat-progress-bar mode="buffer"></mat-progress-bar>
+<ng-container *ngIf="params$ | async">
+    <div class="words_list" *ngIf="words$ | async as words">
+        <div class="main-loader" *ngIf="loading">
+            <mat-spinner [diameter]="30" [strokeWidth]="5"></mat-spinner>
+        </div>
+
+        <app-words-list-item
+            *ngFor="let word of words; trackBy: wordTrackBy"
+            [word]="word.dictionary!"
+            [vocabularyId]="word.vocabularyId"
+        >
+        </app-words-list-item>
+
+        <div class="empty-list" *ngIf="!loading && words.length === 0">No words</div>
+
+        <div class="loader" *ngIf="currentPage$.value < lastPage" (appInfiniteScroll)="getNextPage()">
+            <mat-progress-bar mode="buffer"></mat-progress-bar>
+        </div>
     </div>
-</div>
+</ng-container>

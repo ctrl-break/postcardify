@@ -1,0 +1,10 @@
+<div class="alphabet">
+    <span
+        aria-hidden="true"
+        class="letter"
+        *ngFor="let letter of alphabet"
+        (click)="goToLetter(letter)"
+        (keyup)="goToLetter(letter)"
+        >{{ letter }}</span
+    >
+</div>

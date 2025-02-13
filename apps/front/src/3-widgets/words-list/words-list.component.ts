@@ -3,17 +3,34 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, combineLatest, delay, map, of, scan, switchMap, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    delay,
+    distinctUntilChanged,
+    filter,
+    map,
+    of,
+    scan,
+    switchMap,
+    tap,
+    withLatestFrom,
+} from 'rxjs';
 import { WordsListItemComponent } from '@/features/words-list-item';
 import { INFINITE_SCROLL_PAGE_SIZE } from '@/shared/lib';
-import { CategoryAssociation } from '@/shared/lib/models';
 import { UserStore, VocabularyStore } from '@/shared/lib/stores';
 import { InfiniteScrollDirective } from '@/shared/ui/infinitive-scroll';
 import { CategoryAssociationDto, CategoryService } from '@/shared/api/generated';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-words-list',
-    imports: [CommonModule, WordsListItemComponent, InfiniteScrollDirective, MatProgressBarModule],
+    imports: [
+        CommonModule,
+        WordsListItemComponent,
+        InfiniteScrollDirective,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+    ],
     templateUrl: './words-list.component.html',
     styleUrl: './words-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,32 +41,43 @@ export class WordsListComponent {
     userStore = inject(UserStore);
     vocabularyStore = inject(VocabularyStore);
 
-    currentPage$ = new BehaviorSubject(1);
-    words$: Observable<CategoryAssociation[]> = combineLatest([
-        combineLatest([this.route.params, this.currentPage$]).pipe(
-            switchMap(([params, pageNumber]) => {
-                this.categoryId = params['id'];
-                return this.getPage(pageNumber);
-            }),
-            scan((acc, current) => [...acc, ...current]),
+    params$ = this.route.params.pipe(
+        map((params) => ({ categoryId: params['id'], letter: params['letter'] })),
+        distinctUntilChanged((prev, curr) => prev.categoryId === curr.categoryId && prev.letter === curr.letter),
+        tap((params) => {
+            this.categoryId = params.categoryId;
+            this.letter = params.letter;
+            this.lastPage = 1;
+            this.loading = false;
+            this.currentPage$.next(1);
+        }),
+    );
+
+    vocabularyWordIds$ = toObservable(this.vocabularyStore.wordIds);
+    currentPage$ = new BehaviorSubject<number>(-1);
+    words$ = this.currentPage$.pipe(
+        filter((pageNumber) => pageNumber > 0),
+        switchMap((pageNumber) =>
+            this.getPage(pageNumber, this.letter).pipe(map((words) => ({ words, reset: pageNumber === 1 }))),
         ),
-        toObservable(this.vocabularyStore.wordIds),
-    ]).pipe(
-        map(([words, vocabularyIds]) => {
-            return words.map((word) => ({
+        scan((acc, { words, reset }) => (reset ? words : [...acc, ...words]), [] as CategoryAssociationDto[]),
+        withLatestFrom(this.vocabularyWordIds$),
+        map(([words, vocabularyIds]) =>
+            words.map((word) => ({
                 ...word,
                 vocabularyId: word.wordId
                     ? vocabularyIds.find((voc) => voc.wordId === word.wordId)?.vocabularyId
                     : undefined,
-            }));
-        }),
+            })),
+        ),
     );
 
     categoryId: string | undefined;
+    letter: string | undefined;
     lastPage = 1;
     loading = false;
 
-    getPage(pageNumber: number) {
+    getPage(pageNumber: number, letter = '') {
         if (this.loading || !this.categoryId) {
             return of([]);
         }
@@ -59,17 +87,23 @@ export class WordsListComponent {
             perPage: INFINITE_SCROLL_PAGE_SIZE.toString(),
             page: pageNumber.toString(),
         };
-        return this.categoryService.categoryControllerFindWordsByCategory(params).pipe(
+
+        const action$ = letter
+            ? this.categoryService.categoryControllerFindWordsByCategoryAndFirstLetter({ ...params, letter })
+            : this.categoryService.categoryControllerFindWordsByCategory(params);
+
+        return action$.pipe(
             delay(300),
             tap(({ meta }) => {
-                this.loading = false;
                 this.lastPage = meta?.lastPage ?? 1;
+                this.loading = false;
             }),
             map(({ data }) => (data?.length ? data : [])),
         );
     }
 
     getNextPage() {
+        if (this.loading) return;
         this.currentPage$.next(this.currentPage$.value + 1);
     }
 

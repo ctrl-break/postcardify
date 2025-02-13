@@ -22,6 +22,8 @@ import { categoryControllerFindUserCategories } from '../fn/category/category-co
 import { CategoryControllerFindUserCategories$Params } from '../fn/category/category-controller-find-user-categories';
 import { categoryControllerFindWordsByCategory } from '../fn/category/category-controller-find-words-by-category';
 import { CategoryControllerFindWordsByCategory$Params } from '../fn/category/category-controller-find-words-by-category';
+import { categoryControllerFindWordsByCategoryAndFirstLetter } from '../fn/category/category-controller-find-words-by-category-and-first-letter';
+import { CategoryControllerFindWordsByCategoryAndFirstLetter$Params } from '../fn/category/category-controller-find-words-by-category-and-first-letter';
 import { categoryControllerRemove } from '../fn/category/category-controller-remove';
 import { CategoryControllerRemove$Params } from '../fn/category/category-controller-remove';
 import { categoryControllerUpdate } from '../fn/category/category-controller-update';
@@ -252,6 +254,62 @@ export class CategoryService extends BaseService {
         }
     > {
         return this.categoryControllerFindWordsByCategory$Response(params, context).pipe(
+            map(
+                (
+                    r: StrictHttpResponse<
+                        PageDto & {
+                            data?: Array<CategoryAssociationDto>;
+                            meta?: PageMetaDto;
+                        }
+                    >,
+                ): PageDto & {
+                    data?: Array<CategoryAssociationDto>;
+                    meta?: PageMetaDto;
+                } => r.body,
+            ),
+        );
+    }
+
+    /** Path part for operation `categoryControllerFindWordsByCategoryAndFirstLetter()` */
+    static readonly CategoryControllerFindWordsByCategoryAndFirstLetterPath =
+        '/api/v1/words/category/{id}/list/letter/{letter}';
+
+    /**
+     * This method provides access to the full `HttpResponse`, allowing access to response headers.
+     * To access only the response body, use `categoryControllerFindWordsByCategoryAndFirstLetter()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    categoryControllerFindWordsByCategoryAndFirstLetter$Response(
+        params: CategoryControllerFindWordsByCategoryAndFirstLetter$Params,
+        context?: HttpContext,
+    ): Observable<
+        StrictHttpResponse<
+            PageDto & {
+                data?: Array<CategoryAssociationDto>;
+                meta?: PageMetaDto;
+            }
+        >
+    > {
+        return categoryControllerFindWordsByCategoryAndFirstLetter(this.http, this.rootUrl, params, context);
+    }
+
+    /**
+     * This method provides access only to the response body.
+     * To access the full response (for headers, for example), `categoryControllerFindWordsByCategoryAndFirstLetter$Response()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    categoryControllerFindWordsByCategoryAndFirstLetter(
+        params: CategoryControllerFindWordsByCategoryAndFirstLetter$Params,
+        context?: HttpContext,
+    ): Observable<
+        PageDto & {
+            data?: Array<CategoryAssociationDto>;
+            meta?: PageMetaDto;
+        }
+    > {
+        return this.categoryControllerFindWordsByCategoryAndFirstLetter$Response(params, context).pipe(
             map(
                 (
                     r: StrictHttpResponse<

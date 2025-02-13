@@ -22,6 +22,8 @@ import { wordControllerFindPagedWords } from '../fn/word/word-controller-find-pa
 import { WordControllerFindPagedWords$Params } from '../fn/word/word-controller-find-paged-words';
 import { wordControllerGetRandomWord } from '../fn/word/word-controller-get-random-word';
 import { WordControllerGetRandomWord$Params } from '../fn/word/word-controller-get-random-word';
+import { wordControllerGetWordByLetter } from '../fn/word/word-controller-get-word-by-letter';
+import { WordControllerGetWordByLetter$Params } from '../fn/word/word-controller-get-word-by-letter';
 import { wordControllerRemove } from '../fn/word/word-controller-remove';
 import { WordControllerRemove$Params } from '../fn/word/word-controller-remove';
 import { wordControllerUpdate } from '../fn/word/word-controller-update';
@@ -89,6 +91,68 @@ export class WordService extends BaseService {
      */
     wordControllerCreate(params: WordControllerCreate$Params, context?: HttpContext): Observable<WordDto> {
         return this.wordControllerCreate$Response(params, context).pipe(
+            map((r: StrictHttpResponse<WordDto>): WordDto => r.body),
+        );
+    }
+
+    /** Path part for operation `wordControllerGetRandomWord()` */
+    static readonly WordControllerGetRandomWordPath = '/api/v1/words/word/random';
+
+    /**
+     * This method provides access to the full `HttpResponse`, allowing access to response headers.
+     * To access only the response body, use `wordControllerGetRandomWord()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    wordControllerGetRandomWord$Response(
+        params?: WordControllerGetRandomWord$Params,
+        context?: HttpContext,
+    ): Observable<StrictHttpResponse<WordDto>> {
+        return wordControllerGetRandomWord(this.http, this.rootUrl, params, context);
+    }
+
+    /**
+     * This method provides access only to the response body.
+     * To access the full response (for headers, for example), `wordControllerGetRandomWord$Response()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    wordControllerGetRandomWord(
+        params?: WordControllerGetRandomWord$Params,
+        context?: HttpContext,
+    ): Observable<WordDto> {
+        return this.wordControllerGetRandomWord$Response(params, context).pipe(
+            map((r: StrictHttpResponse<WordDto>): WordDto => r.body),
+        );
+    }
+
+    /** Path part for operation `wordControllerGetWordByLetter()` */
+    static readonly WordControllerGetWordByLetterPath = '/api/v1/words/word/letter/{letter}';
+
+    /**
+     * This method provides access to the full `HttpResponse`, allowing access to response headers.
+     * To access only the response body, use `wordControllerGetWordByLetter()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    wordControllerGetWordByLetter$Response(
+        params: WordControllerGetWordByLetter$Params,
+        context?: HttpContext,
+    ): Observable<StrictHttpResponse<WordDto>> {
+        return wordControllerGetWordByLetter(this.http, this.rootUrl, params, context);
+    }
+
+    /**
+     * This method provides access only to the response body.
+     * To access the full response (for headers, for example), `wordControllerGetWordByLetter$Response()` instead.
+     *
+     * This method doesn't expect any request body.
+     */
+    wordControllerGetWordByLetter(
+        params: WordControllerGetWordByLetter$Params,
+        context?: HttpContext,
+    ): Observable<WordDto> {
+        return this.wordControllerGetWordByLetter$Response(params, context).pipe(
             map((r: StrictHttpResponse<WordDto>): WordDto => r.body),
         );
     }
@@ -204,37 +268,6 @@ export class WordService extends BaseService {
      */
     wordControllerRemove(params: WordControllerRemove$Params, context?: HttpContext): Observable<WordDto> {
         return this.wordControllerRemove$Response(params, context).pipe(
-            map((r: StrictHttpResponse<WordDto>): WordDto => r.body),
-        );
-    }
-
-    /** Path part for operation `wordControllerGetRandomWord()` */
-    static readonly WordControllerGetRandomWordPath = '/api/v1/words/word/random';
-
-    /**
-     * This method provides access to the full `HttpResponse`, allowing access to response headers.
-     * To access only the response body, use `wordControllerGetRandomWord()` instead.
-     *
-     * This method doesn't expect any request body.
-     */
-    wordControllerGetRandomWord$Response(
-        params?: WordControllerGetRandomWord$Params,
-        context?: HttpContext,
-    ): Observable<StrictHttpResponse<WordDto>> {
-        return wordControllerGetRandomWord(this.http, this.rootUrl, params, context);
-    }
-
-    /**
-     * This method provides access only to the response body.
-     * To access the full response (for headers, for example), `wordControllerGetRandomWord$Response()` instead.
-     *
-     * This method doesn't expect any request body.
-     */
-    wordControllerGetRandomWord(
-        params?: WordControllerGetRandomWord$Params,
-        context?: HttpContext,
-    ): Observable<WordDto> {
-        return this.wordControllerGetRandomWord$Response(params, context).pipe(
             map((r: StrictHttpResponse<WordDto>): WordDto => r.body),
         );
     }

@@ -24,11 +24,22 @@ export const routes: Routes = [
         component: CardsComponent,
         canActivate: [userGuard],
     },
+
+    {
+        path: 'words/:id/list/letter/:letter',
+        pathMatch: 'full',
+        component: WordsComponent,
+    },
+    {
+        path: 'words/:id/list',
+        pathMatch: 'full',
+        component: WordsComponent,
+    },
+
     {
         path: 'words/word/:id',
         pathMatch: 'full',
         component: WordComponent,
-        canActivate: [userGuard],
     },
     {
         path: 'words/vocabulary/:id',
@@ -37,16 +48,10 @@ export const routes: Routes = [
         component: WordComponent,
         canActivate: [userGuard],
     },
-    {
-        path: 'words/:id/list',
-        pathMatch: 'full',
-        component: WordsComponent,
-        canActivate: [userGuard],
-    },
+
     {
         path: 'words',
         component: CategoriesComponent,
-        canActivate: [userGuard],
     },
 
     {

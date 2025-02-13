@@ -1,4 +1,3 @@
-<ng-container *ngIf="(word$ | async) as word">
+<ng-container *ngIf="word$ | async as word">
     <app-postcard [showActions]="false" [word]="word" [wordImage]="word.defaultImage"></app-postcard>
 </ng-container>
-

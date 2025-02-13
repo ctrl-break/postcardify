@@ -8,7 +8,7 @@ export const API_VERS = API + '/api/v1';
 export const PATH_AUTH = '/auth';
 export const API_AUTH = API_VERS + PATH_AUTH;
 
-export const INFINITE_SCROLL_PAGE_SIZE = 100;
+export const INFINITE_SCROLL_PAGE_SIZE = 33;
 
 export const REFRESH_TOKEN_ERROR = 'REFRESH_TOKEN_ERROR';
 

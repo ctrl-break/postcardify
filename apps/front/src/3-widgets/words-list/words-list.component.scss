@@ -1,6 +1,24 @@
 .words_list {
 }
 
+.empty-list {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 20px;
+}
+
+.main-loader {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+
+    mat-spinner {
+        display: block;
+        width: 20px;
+        height: 20px;
+    }
+}
+
 .loader {
     height: 50px;
     display: flex;

@@ -5,14 +5,13 @@ import { WordDto, WordService } from '@/shared/api/generated';
 import { PostcardComponent } from '@/features/postcard';
 
 @Component({
-  selector: 'app-word-random',
-  imports: [CommonModule, PostcardComponent],
-  templateUrl: './word-random.component.html',
-  styleUrl: './word-random.component.scss',
+    selector: 'app-word-random',
+    imports: [CommonModule, PostcardComponent],
+    templateUrl: './word-random.component.html',
+    styleUrl: './word-random.component.scss',
 })
 export class WordRandomComponent {
+    apiService = inject(WordService);
 
-  apiService = inject(WordService);
-
-  word$: Observable<WordDto> = this.apiService.wordControllerGetRandomWord();
+    word$: Observable<WordDto> = this.apiService.wordControllerGetRandomWord();
 }
