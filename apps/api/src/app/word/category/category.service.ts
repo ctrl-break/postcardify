@@ -13,7 +13,7 @@ export class CategoryService {
     }
 
     async findBasicCategories(): Promise<Category[]> {
-        return await this.prisma.category.findMany({ where: { userId: null } });
+        return await this.prisma.category.findMany({ where: { userId: null }, orderBy: { name: 'asc' } });
     }
 
     async findUserCategories(userId: number): Promise<Category[]> {

@@ -6,6 +6,7 @@ import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Category } from '@prisma/client';
 import { ApiPaginatedResponse, PageDto } from '../../common/dto/page.dto';
 import { DEFAULT_WORDS_PER_PAGE } from '../../common/constants';
+import { Public } from '../../common/decorators';
 
 @Controller('words/category')
 export class CategoryController {
@@ -19,6 +20,7 @@ export class CategoryController {
     }
 
     @Get()
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: CategoryDto, isArray: true })
     async findBasicCategories(): Promise<Category[]> {
@@ -37,6 +39,7 @@ export class CategoryController {
     }
 
     @Get(':id')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: CategoryDto })
     async findOne(@Param('id') id: string): Promise<Category> {
@@ -44,6 +47,7 @@ export class CategoryController {
     }
 
     @Get(':id/list')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiPaginatedResponse(CategoryAssociationDto)
     async findWordsByCategory(
@@ -60,6 +64,7 @@ export class CategoryController {
     }
 
     @Get(':id/list/letter/:letter')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiPaginatedResponse(CategoryAssociationDto)
     async findWordsByCategoryAndFirstLetter(

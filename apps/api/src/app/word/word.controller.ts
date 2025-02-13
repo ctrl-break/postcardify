@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete, Put, Query, HttpStatus } fr
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { WordService } from './word.service';
 import { CreateWordDto, UpdateWordDto, WordDto } from './word.dto';
-import { Roles } from '../common/decorators';
+import { Public, Roles } from '../common/decorators';
 import { Image, Role, Word } from '@prisma/client';
 import { ImageDto } from './image/image.dto';
 import { PageDto } from '../common/dto/page.dto';
@@ -34,6 +34,7 @@ export class WordController {
     }
 
     @Get('random')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: WordDto })
     async getRandomWord(): Promise<Word> {
@@ -57,6 +58,7 @@ export class WordController {
     }
 
     @Get(':id/update-image')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: ImageDto })
     async findOneAndUpdateImage(@Param('id') id: string): Promise<Image> {
@@ -64,6 +66,7 @@ export class WordController {
     }
 
     @Get(':id')
+    @Public()
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: WordDto })
     async findOne(@Param('id') id: string): Promise<Word> {
