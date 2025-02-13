@@ -1,4 +1,16 @@
 <app-layout>
+    <div class="categories">
+        <a
+            tabindex="0"
+            class="category"
+            *ngIf="category$ | async as category"
+            (click)="goToCategories()"
+            (keyup.enter)="goToCategories()"
+        >
+            {{ category.name }}
+        </a>
+    </div>
+
     <app-words-alphabet></app-words-alphabet>
     <app-words-list></app-words-list>
 </app-layout>

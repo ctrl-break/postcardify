@@ -19,7 +19,7 @@ import { WordsListItemComponent } from '@/features/words-list-item';
 import { INFINITE_SCROLL_PAGE_SIZE } from '@/shared/lib';
 import { UserStore, VocabularyStore } from '@/shared/lib/stores';
 import { InfiniteScrollDirective } from '@/shared/ui/infinitive-scroll';
-import { CategoryAssociationDto, CategoryService } from '@/shared/api/generated';
+import { CategoryAssociationDto, CategoryDto, CategoryService } from '@/shared/api/generated';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -73,6 +73,7 @@ export class WordsListComponent {
     );
 
     categoryId: string | undefined;
+    category: CategoryDto | undefined;
     letter: string | undefined;
     lastPage = 1;
     loading = false;

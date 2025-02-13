@@ -1,13 +1,31 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { WordsListComponent } from '@/widgets/words-list';
 import { LayoutComponent } from '../layout';
 import { WordsAlphabetComponent } from '@/widgets/words-alphabet/words-alphabet.component';
+import { distinctUntilKeyChanged, switchMap, tap } from 'rxjs';
+import { CategoryService } from '@/shared/api/generated';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-words',
-    imports: [LayoutComponent, WordsListComponent, WordsAlphabetComponent],
+    imports: [CommonModule, LayoutComponent, WordsListComponent, WordsAlphabetComponent],
     templateUrl: './words.component.html',
     styleUrl: './words.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WordsComponent {}
+export class WordsComponent {
+    route = inject(ActivatedRoute);
+    router = inject(Router);
+    categoryService = inject(CategoryService);
+
+    category$ = this.route.params.pipe(
+        tap((p) => console.log(p)),
+        distinctUntilKeyChanged('id'),
+        switchMap((params) => this.categoryService.categoryControllerFindOne({ id: params['id'] })),
+    );
+
+    goToCategories() {
+        this.router.navigate(['/words']);
+    }
+}
