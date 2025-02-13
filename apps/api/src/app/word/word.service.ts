@@ -34,36 +34,33 @@ export class WordService {
     }): Promise<PageDto<Word>> {
         const skip = (page - 1) * perPage;
         const take = perPage;
-        const result = await this.prisma.word.findMany({
-            where: { ...where, isVisible: true },
-            orderBy: { id: 'asc', ...orderBy },
-            skip,
-            take,
-        });
+    
+        const [result, total] = await Promise.all([
+            this.prisma.word.findMany({
+                where: {
+                    ...where,
+                    isVisible: true,
+                },
+                orderBy: { id: 'asc', ...orderBy },
+                skip,
+                take,
+            }),
+            this.prisma.word.count({
+                where: { ...where, isVisible: true },
+            }),
+        ]);
+    
+        const lastPage = Math.ceil(total / perPage);
 
         return {
             data: result,
             meta: {
-                total: await this.prisma.word.count({
-                    where: { ...where, isVisible: true },
-                }),
+                total,
                 perPage,
-                lastPage: Math.ceil(
-                    (await this.prisma.word.count({
-                        where: { ...where, isVisible: true },
-                    })) / perPage,
-                ),
+                lastPage,
                 currentPage: page,
                 prev: page > 1 ? page - 1 : null,
-                next:
-                    page <
-                    Math.ceil(
-                        (await this.prisma.word.count({
-                            where: { ...where, isVisible: true },
-                        })) / perPage,
-                    )
-                        ? page + 1
-                        : null,
+                next: page < lastPage ? page + 1 : null,
             },
         };
     }
@@ -87,12 +84,12 @@ export class WordService {
     }
 
     async getRandomWord(): Promise<Word> {
-		const randomId = await this.prisma.word.count({
-			where: { isVisible: true, defaultImageId: { not: null } },
-		});
+        const randomId = await this.prisma.word.count({
+            where: { isVisible: true, defaultImageId: { not: null } },
+        });
         const randomWord = await this.prisma.word.findFirst({
-			where: { isVisible: true, defaultImageId: { not: null } },
-			include: { defaultImage: true },
+            where: { isVisible: true, defaultImageId: { not: null } },
+            include: { defaultImage: true },
             skip: Math.floor(Math.random() * randomId),
         });
         return randomWord;

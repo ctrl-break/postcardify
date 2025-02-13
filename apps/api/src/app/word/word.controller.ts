@@ -40,6 +40,18 @@ export class WordController {
         return await this.wordService.getRandomWord();
     }
 
+    @Get('letter/:letter')
+    @ApiBearerAuth('jwt')
+    @ApiResponse({ status: HttpStatus.OK, type: WordDto })
+    async getWordByLetter(@Query('page') page: string, @Query('perPage') perPage: string, @Param('letter') letter: string): Promise<PageDto<Word>> {
+        return await this.wordService.findWords({
+            where: { word: { startsWith: letter, mode: 'insensitive' } },
+            orderBy: {},
+            page: +page || 1,
+            perPage: +perPage || DEFAULT_WORDS_PER_PAGE,
+        });
+    }
+
     @Get(':id/update-image')
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: ImageDto })
