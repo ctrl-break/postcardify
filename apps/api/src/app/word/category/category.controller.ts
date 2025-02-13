@@ -59,6 +59,24 @@ export class CategoryController {
         });
     }
 
+    @Get(':id/list/letter/:letter')
+    @ApiBearerAuth('jwt')
+    @ApiPaginatedResponse(CategoryAssociationDto)
+    async findWordsByCategoryAndFirstLetter(
+        @Param('id') id: string,
+        @Param('letter') letter: string,
+        @Query('page') page: string,
+        @Query('perPage') perPage: string,
+    ): Promise<PageDto<CategoryAssociationDto>> {
+        return await this.categoryService.findWordsByCategory({
+            where: { categoryId: +id },
+            firstLetter: letter,
+            orderBy: {},
+            page: +page || 1,
+            perPage: +perPage || DEFAULT_WORDS_PER_PAGE,
+        });
+    }
+
     @Put(':id')
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: CategoryDto })

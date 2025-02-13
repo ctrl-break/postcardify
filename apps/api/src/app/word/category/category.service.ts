@@ -43,50 +43,66 @@ export class CategoryService {
 
     async findWordsByCategory({
         where,
+        firstLetter,
         orderBy,
         page,
         perPage,
     }: {
         where?: Prisma.CategoryAssociationWhereInput;
+        firstLetter?: string;
         orderBy?: Prisma.CategoryAssociationOrderByWithRelationInput;
         page?: number;
         perPage?: number;
     }): Promise<PageDto<CategoryAssociationDto>> {
         const skip = (page - 1) * perPage;
         const take = perPage;
-        const result = await this.prisma.categoryAssociation.findMany({
-            where: { ...where, vocabularyId: null },
-            orderBy: { id: 'asc', ...orderBy },
-            include: {
-                dictionary: true,
-            },
-            skip,
-            take,
-        });
+
+        const [result, total] = await Promise.all([
+            this.prisma.categoryAssociation.findMany({
+                where: {
+                    ...where,
+                    vocabularyId: null,
+                    dictionary: {
+                        word: {
+                            startsWith: firstLetter,
+                            mode: 'insensitive',
+                        },
+                    },
+                },
+                orderBy: { id: 'asc', ...orderBy },
+                include: {
+                    dictionary: true,
+                },
+                skip,
+                take,
+            }),
+            this.prisma.categoryAssociation.count({
+                where: {
+                    ...where,
+                    vocabularyId: null,
+                    dictionary: {
+                        word: {
+                            startsWith: firstLetter,
+                            mode: 'insensitive',
+                        },
+                    },
+                },
+            }),
+        ]);
+
+        console.log(result.length, total, firstLetter);
+
+        const lastPage = Math.ceil(total / perPage);
 
         return {
             data: result,
             meta: {
+                total,
                 perPage,
-                total: await this.prisma.categoryAssociation.count({
-                    where: { ...where, vocabularyId: null },
-                }),
-                lastPage: Math.ceil(
-                    (await this.prisma.categoryAssociation.count({
-                        where: { ...where, vocabularyId: null },
-                    })) / perPage,
-                ),
-                prev: page > 1 ? page - 1 : null,
-                next:
-                    page <
-                    Math.ceil(
-                        (await this.prisma.categoryAssociation.count({
-                            where: { ...where, vocabularyId: null },
-                        })) / perPage,
-                    )
-                        ? page + 1
-                        : null,
+                lastPage,
                 currentPage: page,
+                prev: page > 1 ? page - 1 : null,
+                next: page < lastPage ? page + 1 : null,
             },
         };
     }

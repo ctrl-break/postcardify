@@ -33,7 +33,7 @@ export class WordController {
         });
     }
 
-	@Get('random')
+    @Get('random')
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: WordDto })
     async getRandomWord(): Promise<Word> {
@@ -43,7 +43,11 @@ export class WordController {
     @Get('letter/:letter')
     @ApiBearerAuth('jwt')
     @ApiResponse({ status: HttpStatus.OK, type: WordDto })
-    async getWordByLetter(@Query('page') page: string, @Query('perPage') perPage: string, @Param('letter') letter: string): Promise<PageDto<Word>> {
+    async getWordByLetter(
+        @Query('page') page: string,
+        @Query('perPage') perPage: string,
+        @Param('letter') letter: string,
+    ): Promise<PageDto<Word>> {
         return await this.wordService.findWords({
             where: { word: { startsWith: letter, mode: 'insensitive' } },
             orderBy: {},

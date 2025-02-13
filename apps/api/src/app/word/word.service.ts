@@ -34,7 +34,7 @@ export class WordService {
     }): Promise<PageDto<Word>> {
         const skip = (page - 1) * perPage;
         const take = perPage;
-    
+
         const [result, total] = await Promise.all([
             this.prisma.word.findMany({
                 where: {
@@ -49,7 +49,7 @@ export class WordService {
                 where: { ...where, isVisible: true },
             }),
         ]);
-    
+
         const lastPage = Math.ceil(total / perPage);
 
         return {
