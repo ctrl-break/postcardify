@@ -1,4 +1,9 @@
 <app-layout>
-    <app-words-list-item *ngFor="let word of vocabularyStore.vocabulary()" [word]="word.word!" [vocabularyId]="word.id">
+    <app-words-list-item
+        *ngFor="let word of vocabularyStore.vocabulary()"
+        [word]="word.word!"
+        [vocabularyId]="word.id"
+        [isLoggedIn]="!!userStore.profile()"
+    >
     </app-words-list-item>
 </app-layout>

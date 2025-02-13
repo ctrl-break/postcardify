@@ -18,6 +18,7 @@ export class WordsListItemComponent {
 
     @Input() word!: WordDto;
     @Input() vocabularyId?: number;
+    @Input() isLoggedIn = false;
 
     toggleVocabularyWord(wordId: number) {
         if (this.vocabularyId) {

@@ -6,7 +6,7 @@
         <button mat-fab color="primary" (click)="goBack()">
             <mat-icon>arrow_back</mat-icon>
         </button>
-        <button mat-fab color="primary" (click)="toggleVocabulary()">
+        <button *ngIf="isLoggedIn" mat-fab color="primary" (click)="toggleVocabulary()">
             <mat-icon *ngIf="isVocabulary">remove</mat-icon>
             <mat-icon *ngIf="!isVocabulary">bookmark_add</mat-icon>
         </button>

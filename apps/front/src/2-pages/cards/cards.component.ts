@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { WordsListItemComponent } from '@/features/words-list-item';
-import { VocabularyStore } from '@/shared/lib/stores';
+import { UserStore, VocabularyStore } from '@/shared/lib/stores';
 import { LayoutComponent } from '../layout';
 
 @Component({
@@ -13,4 +13,5 @@ import { LayoutComponent } from '../layout';
 })
 export class CardsComponent {
     vocabularyStore = inject(VocabularyStore);
+    userStore = inject(UserStore);
 }

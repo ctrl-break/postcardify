@@ -13,5 +13,5 @@ import { CategoryService } from '@/shared/api/generated';
 export class CategoryListComponent {
     apiService = inject(CategoryService);
 
-    categories$ = this.apiService.categoryControllerFindBasicCategories({});
+    categories$ = this.apiService.categoryControllerFindBasicCategories();
 }

@@ -13,5 +13,20 @@ import { MatListModule } from '@angular/material/list';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CategoryComponent {
-    @Input() category!: CategoryDto | null;
+    @Input() set category(_category: CategoryDto) {
+        this.categoryItem = _category;
+        this.setDescription(this.categoryItem.description);
+    }
+
+    categoryItem: CategoryDto | undefined;
+    title = '';
+    description = '';
+
+    setDescription(descr = '') {
+        if (!descr) return;
+
+        const splited = descr.split('.');
+        this.title = splited[0];
+        this.description = splited.slice(1).join('.');
+    }
 }

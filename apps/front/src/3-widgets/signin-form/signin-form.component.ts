@@ -32,7 +32,7 @@ export class SigninFormComponent {
             return;
         }
         const { login, password } = this.signInForm.value;
-        this.authService.signin(login!, password!).subscribe({
+        this.authService.signin(login as string, password as string).subscribe({
             next: (res) => {
                 console.log(res);
                 this.authService.setTokensCookie(res.accessToken);

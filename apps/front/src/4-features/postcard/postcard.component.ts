@@ -17,7 +17,8 @@ export class PostcardComponent {
     @Input() word!: WordDto;
     @Input() wordImage?: ImageDto | null;
     @Input() isVocabulary?: boolean | null;
-    @Input() showActions: boolean | null = true;
+    @Input() isLoggedIn = false;
+    @Input() showActions = true;
 
     private location = inject(Location);
     mediaService = inject(MediaService);

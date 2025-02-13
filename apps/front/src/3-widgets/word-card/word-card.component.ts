@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, catchError, map, of, switchMap, tap } from 'rxjs';
 import { PostcardComponent } from '@/features/postcard';
-import { VocabularyStore } from '@/shared/lib/stores';
+import { UserStore, VocabularyStore } from '@/shared/lib/stores';
 import { ImageDto, VocabularyService, WordDto, WordService } from '@/shared/api/generated';
 
 @Component({
@@ -18,6 +18,7 @@ export class WordCardComponent {
     wordService = inject(WordService);
     route = inject(ActivatedRoute);
     router = inject(Router);
+    userStore = inject(UserStore);
     vocabularyStore = inject(VocabularyStore);
 
     isVocabularyRoute = false;

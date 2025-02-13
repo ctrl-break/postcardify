@@ -1,6 +1,6 @@
 .category_item {
     display: flex;
-    margin-top: 12px;
+    margin-top: 20px;
 
     .mat-icon {
         min-width: 48px;
@@ -8,13 +8,19 @@
 
     &_name {
         font-size: 1.2rem;
+        color: var(--mat-sys-primary);
+    }
+
+    &_title {
+        margin-top: 8px;
+        font-weight: 500;
     }
 
     &_descr {
-        margin-top: 8px;
+        margin-top: 4px;
     }
 
     &:hover {
-        opacity: 0.9;
+        opacity: 0.85;
     }
 }

@@ -1,7 +1,6 @@
 <div class="app" [ngClass]="themeService.themeSignal()">
-    @if ((init$ | async) === true) {
-    <router-outlet />
-    } @else {
-    <app-initial-loader></app-initial-loader>
-    }
+    <router-outlet *ngIf="!isLoading" />
+    <ng-container *ngIf="init$ | async"></ng-container>
 </div>
+
+<app-initial-loader *ngIf="isLoading"></app-initial-loader>

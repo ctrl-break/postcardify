@@ -3,5 +3,6 @@
         [word]="word"
         [isVocabulary]="isVocabulary"
         [wordImage]="word.defaultImageId ? word.defaultImage : (wordImage$ | async)"
+        [isLoggedIn]="!!userStore.profile()"
     ></app-postcard>
 </div>
