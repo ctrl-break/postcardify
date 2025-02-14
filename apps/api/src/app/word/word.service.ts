@@ -92,7 +92,14 @@ export class WordService {
             include: { defaultImage: true },
             skip: Math.floor(Math.random() * randomId),
         });
-        return randomWord;
+        const usages = await this.prisma.wordUsage.findMany({
+            where: { wordId: randomWord.id, isVerified: true },
+        });
+        const result = {
+            ...randomWord,
+            usages,
+        };
+        return result;
     }
 
     async updateWord(id: number, data: UpdateWordDto): Promise<Word> {
