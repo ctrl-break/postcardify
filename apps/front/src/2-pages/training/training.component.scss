@@ -1,0 +1,34 @@
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+
+    &__content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    &__button {
+        display: inline-block;
+        padding: 12px 24px;
+        background: #ff4081;
+        color: #fff;
+        font-size: 1.2rem;
+        text-decoration: none;
+        border-radius: 8px;
+        transition: background 0.3s;
+
+        &:hover {
+            background: #e91e63;
+        }
+    }
+}

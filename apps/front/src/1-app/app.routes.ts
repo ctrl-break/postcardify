@@ -8,6 +8,7 @@ import { SigninComponent } from '@/pages/signin/signin.component';
 import { WordComponent } from '@/pages/word/word.component';
 import { WordsComponent } from '@/pages/words/words.component';
 import { signinGuard, userGuard } from '@/shared/lib/guards';
+import { TrainingComponent } from '@/pages/training/training.component';
 
 export const routes: Routes = [
     {
@@ -24,7 +25,11 @@ export const routes: Routes = [
         component: CardsComponent,
         canActivate: [userGuard],
     },
-
+    {
+        path: 'training',
+        component: TrainingComponent,
+        canActivate: [userGuard],
+    },
     {
         path: 'words/:id/list/letter/:letter',
         pathMatch: 'full',

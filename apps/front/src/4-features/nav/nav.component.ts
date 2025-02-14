@@ -14,10 +14,11 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavComponent {
     @Input() color = 'primary';
-    @Input() isMobile: boolean = false;
+    @Input() isMobile = false;
 
     navigation = [
         { link: '/cards', title: 'My cards' },
+        { link: '/training', title: 'Training' },
         { link: '/words', title: 'Words' },
         { link: '/profile', title: 'Profile' },
     ];
