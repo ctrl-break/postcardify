@@ -1,3 +1,6 @@
-import { JwtStrategy } from './jwt.strategy';
+// import { JwtStrategy } from './jwt.strategy';
 
-export const STRATEGIES = [JwtStrategy];
+import { JwtCognitoStrategy } from './jwt-cognito.strategy';
+
+// export const STRATEGIES = [JwtStrategy];
+export const STRATEGIES = [JwtCognitoStrategy];

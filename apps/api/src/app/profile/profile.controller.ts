@@ -14,6 +14,7 @@ export class ProfileController {
     @ApiResponse({ status: HttpStatus.OK, type: ProfileDto })
     async getProfileData(@Req() req: UserRequest): Promise<UserResponse> {
         const id = req.user?.id;
+        console.log(req);
         if (id) {
             return await this.profileService.getProfileData(id);
         }
